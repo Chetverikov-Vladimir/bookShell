@@ -1,8 +1,10 @@
 package che.vlvl.booksShell;
 
 import che.vlvl.booksShell.Dao.AuthorDao;
+import che.vlvl.booksShell.Dao.BookDao;
 import che.vlvl.booksShell.Dao.GenreDao;
 import che.vlvl.booksShell.domain.Author;
+import che.vlvl.booksShell.domain.Book;
 import che.vlvl.booksShell.domain.Genre;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,17 +24,24 @@ public class BooksShellApplication {
 		authorDao.insert(new Author(1,"Pushkin"));
 		authorDao.insert(new Author(2,"Sukin sin"));
 
-		List<Author> authors = authorDao.getAll();
-		authors.stream().
-				forEach((x)-> System.out.println(x.getId()+" "+x.getAuthorName()));
-
 		GenreDao genreDao = context.getBean(GenreDao.class);
 
 		genreDao.insert(new Genre(1,"Fantastic"));
 		genreDao.insert(new Genre(2,"Romantic"));
 
-		List<Genre> genres = genreDao.getAll();
-		genres.stream().forEach((x)-> System.out.println(x.getId()+" "+x.getGenreName()));
+		BookDao bookDao=context.getBean(BookDao.class);
+
+		bookDao.insert(new Book(1,"Onegin",authorDao.getById(1),genreDao.getById(2)));
+
+
+		bookDao.getAll().stream().
+				forEach(System.out::println);
+
+		authorDao.getAll().stream().
+				forEach(System.out::println);
+
+		genreDao.getAll().stream().
+				forEach(System.out::println);
 
 	}
 

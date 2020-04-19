@@ -11,6 +11,13 @@ public class Book {
     public Book() {
     }
 
+    public Book(int id, String bookName, Author author, Genre genre) {
+        this.id = id;
+        this.bookName = bookName;
+        this.author = author;
+        this.genre = genre;
+    }
+
     public int getId() {
         return id;
     }
@@ -41,5 +48,15 @@ public class Book {
 
     public void setGenre(Genre genre) {
         this.genre = genre;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", bookName='" + bookName + '\'' +
+                ", author=" + author +
+                ", genre=" + genre +
+                '}';
     }
 }
