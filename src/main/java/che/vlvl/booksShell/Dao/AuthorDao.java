@@ -4,7 +4,7 @@ import che.vlvl.booksShell.domain.Author;
 
 import java.util.List;
 
-public interface AutorDao {
+public interface AuthorDao {
     int count();
 
     void insert(Author author);
