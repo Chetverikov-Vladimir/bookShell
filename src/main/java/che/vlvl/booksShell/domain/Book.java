@@ -5,8 +5,8 @@ import java.util.List;
 public class Book {
     private int id;
     private String bookName;
-    private List<Author> authors;
-    private List<Genre> genres;
+    private Author author;
+    private Genre genre;
 
     public Book() {
     }
@@ -27,19 +27,19 @@ public class Book {
         this.bookName = bookName;
     }
 
-    public List<Author> getAuthors() {
-        return authors;
+    public Author getAuthor() {
+        return author;
     }
 
-    public void setAuthors(List<Author> authors) {
-        this.authors = authors;
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
-    public List<Genre> getGenres() {
-        return genres;
+    public Genre getGenre() {
+        return genre;
     }
 
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 }
