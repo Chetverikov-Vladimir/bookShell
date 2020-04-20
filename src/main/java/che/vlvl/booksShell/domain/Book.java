@@ -5,17 +5,22 @@ import java.util.List;
 public class Book {
     private int id;
     private String bookName;
-    private Author author;
-    private Genre genre;
+    private List<String> authors;
+    private List<String> genres;
 
     public Book() {
     }
 
-    public Book(int id, String bookName, Author author, Genre genre) {
+    public Book(int id, String bookName, List<String> authors, List<String> genres) {
         this.id = id;
         this.bookName = bookName;
-        this.author = author;
-        this.genre = genre;
+        this.authors = authors;
+        this.genres = genres;
+    }
+
+    public Book(int id, String bookName) {
+        this.id = id;
+        this.bookName = bookName;
     }
 
     public int getId() {
@@ -34,20 +39,20 @@ public class Book {
         this.bookName = bookName;
     }
 
-    public Author getAuthor() {
-        return author;
+    public List<String> getAuthors() {
+        return authors;
     }
 
-    public void setAuthor(Author author) {
-        this.author = author;
+    public void setAuthors(List<String> authors) {
+        this.authors = authors;
     }
 
-    public Genre getGenre() {
-        return genre;
+    public List<String> getGenres() {
+        return genres;
     }
 
-    public void setGenre(Genre genre) {
-        this.genre = genre;
+    public void setGenre(List<String> genres) {
+        this.genres = genres;
     }
 
     @Override
@@ -55,8 +60,8 @@ public class Book {
         return "Book{" +
                 "id=" + id +
                 ", bookName='" + bookName + '\'' +
-                ", author=" + author +
-                ", genre=" + genre +
+                ", authors=" + authors +
+                ", genres=" + genres +
                 '}';
     }
 }

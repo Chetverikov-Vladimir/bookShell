@@ -1,31 +1,27 @@
 package che.vlvl.booksShell.Dao;
 
-import che.vlvl.booksShell.domain.Author;
 import che.vlvl.booksShell.domain.Book;
-import che.vlvl.booksShell.domain.Genre;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @SuppressWarnings({"SqlNoDataSourceInspection", "ConstantConditions", "SqlDialectInspection"})
 @Repository
 public class BookDaoJdbc implements BookDao {
 
     private final NamedParameterJdbcOperations jdbcOperations;
-    private final AuthorDao authorDao;
-    private final GenreDao genreDao;
+    private final AuthorsDao authorsDao;
+    private final GenresDao genresDao;
 
-    public BookDaoJdbc(NamedParameterJdbcOperations jdbcOperations, AuthorDao authorDao, GenreDao genreDao) {
+    public BookDaoJdbc(NamedParameterJdbcOperations jdbcOperations, AuthorsDao authorsDao, GenresDao genresDao) {
         this.jdbcOperations = jdbcOperations;
-        this.authorDao = authorDao;
-        this.genreDao = genreDao;
+        this.authorsDao = authorsDao;
+        this.genresDao = genresDao;
     }
 
     @Override
@@ -37,41 +33,48 @@ public class BookDaoJdbc implements BookDao {
 
     @Override
     public void insert(Book book) {
-        Map<String, Object> param = new HashMap<>(1);
-        param.put("id",book.getId());
-        param.put("name", book.getBookName());
-        param.put("idAuthor",book.getAuthor().getId());
-        param.put("idGenre",book.getGenre().getId());
+        //Добавляем книгу
+        jdbcOperations.update("insert into books (name) values(:name)",
+                Collections.singletonMap("name",book.getBookName()));
 
-        jdbcOperations.update("insert into books (id,name,idAuthor,idGenre) values(:id,:name,:idAuthor,:idGenre)",
-                param);
+        authorsDao.insert(book.getAuthors(),book.getId());
+        genresDao.insert(book.getGenres(),book.getId());
+
+
+
     }
 
     @Override
     public Book getById(int id) {
         Map<String,Integer> param=Collections.singletonMap("id",id);
-        return jdbcOperations.queryForObject("select * from books where id=:id",
-                param,
-                (rs, i) -> {
-                    int id1 =rs.getInt("id");
+         Book book=jdbcOperations.queryForObject("select * from books where id=:id",
+                param,(rs, i) -> {
+                    int idBook =rs.getInt("id");
                     String name=rs.getString("name");
-                    Author author=authorDao.getById(rs.getInt("idAuthor"));
-                    Genre genre=genreDao.getById(rs.getInt("idGenre"));
-                    return new Book(id1,name,author,genre);
+                    return new Book(idBook,name);
                 });
+         book.setAuthors(authorsDao.getById(id));
+         book.setGenre(genresDao.getById(id));
+
+         return book;
 
     }
 
     @Override
     public List<Book> getAll() {
-        return jdbcOperations.query("select * from books",
+        List<Book> books = jdbcOperations.query("select * from books",
                 (rs, i) -> {
-                    int id1 =rs.getInt("id");
-                    String name=rs.getString("name");
-                    Author author=authorDao.getById(rs.getInt("idAuthor"));
-                    Genre genre=genreDao.getById(rs.getInt("idGenre"));
-                    return new Book(id1,name,author,genre);
+                    int id1 = rs.getInt("id");
+                    String name = rs.getString("name");
+                    return new Book(id1, name);
                 });
+        books.stream()
+                .forEach(book -> {
+                    book.setAuthors(authorsDao.getById(book.getId()));
+                    book.setGenre(genresDao.getById(book.getId()));
+                });
+        return books;
+
     }
 
     @Override
