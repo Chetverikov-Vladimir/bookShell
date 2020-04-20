@@ -1,5 +1,7 @@
 package che.vlvl.booksShell.domain;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Book {
@@ -11,16 +13,22 @@ public class Book {
     public Book() {
     }
 
-    public Book(int id, String bookName, List<String> authors, List<String> genres) {
-        this.id = id;
+    public Book( int id,String bookName, List<String> authors, List<String> genres) {
+        this.id=id;
         this.bookName = bookName;
         this.authors = authors;
         this.genres = genres;
     }
 
-    public Book(int id, String bookName) {
-        this.id = id;
+    public Book( int id,String bookName) {
+        this.id=id;
         this.bookName = bookName;
+    }
+
+    public Book(String name, String[] authors, String[] genres) {
+        this.bookName=name;
+        this.authors=new ArrayList<>(Arrays.asList(authors));
+        this.genres=new ArrayList<>(Arrays.asList(genres));
     }
 
     public int getId() {

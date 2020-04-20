@@ -1,0 +1,35 @@
+1587408843600:help
+1587408984869:get-book
+1587408992277:help
+1587409000286:clear
+1587409218519:help
+1587409231517:get-book help
+1587409250911:help get-book
+1587409262128:get-book 1
+1587409281236:get-book --id 1
+1587409294773:stacktrace
+1587409754662:help
+1587409761898:get-book 1
+1587411816683:help
+1587411824944:add-book
+1587412408242:add-book skazochka {Pushkin,Lermontov} {Romantic}
+1587412430990:get-book 1
+1587412440280:get-book 2
+1587412614326:book-add skazochka Pushkin Skaz
+1587412638572:add-book skazochka Pushkin Skaz
+1587412652585:get-book 2
+1587412797325:add-book book Pushkin
+1587412822845:add-book book Pushkin Genre
+1587412837215:get-book 2
+1587412898788:add-book book author genre
+1587413055176:add-book book Pushkin Romantic
+1587413062289:get-book 2
+1587413411934:add-book book Pushkin Genre
+1587413852321:add-book book Pushkin,SukinSin Romantic
+1587413860224:get-book 2
+1587413903198:get-book 1
+1587413942875:add-book book Pushkin genre
+1587413965880:add-book book2 Lermontov Roman
+1587413972423:get-book 2
+1587413981865:get-book 1
+1587413989081:get-book 3

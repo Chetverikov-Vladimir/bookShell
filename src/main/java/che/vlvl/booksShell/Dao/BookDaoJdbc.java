@@ -36,9 +36,15 @@ public class BookDaoJdbc implements BookDao {
         //Добавляем книгу
         jdbcOperations.update("insert into books (name) values(:name)",
                 Collections.singletonMap("name",book.getBookName()));
+        Integer id = jdbcOperations.queryForObject("select MAX(id) from books", Collections.emptyMap(), new RowMapper<Integer>() {
+            @Override
+            public Integer mapRow(ResultSet resultSet, int i) throws SQLException {
+                return resultSet.getInt(1);
+            }
+        });
 
-        authorsDao.insert(book.getAuthors(),book.getId());
-        genresDao.insert(book.getGenres(),book.getId());
+        authorsDao.insert(book.getAuthors(),id);
+        genresDao.insert(book.getGenres(),id);
 
 
 
