@@ -7,8 +7,11 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+
+import static java.util.Optional.ofNullable;
+
 @Service
-public class GenresDaoJdbc implements GenresDao{
+public class GenresDaoJdbc implements GenresDao {
 
     private final NamedParameterJdbcOperations jdbcOperations;
 
@@ -18,20 +21,22 @@ public class GenresDaoJdbc implements GenresDao{
 
     @Override
     public void insert(List<String> genres, int id) {
-        genres.stream()
-                .forEach((s)-> {
-                    HashMap<String, Object> param = new HashMap<>(2);
-                    param.put("name",s);
-                    param.put("id_book",id);
-                    jdbcOperations.update("insert into genres (name,id_book) values (:name,:id_book)",
-                            param);
-                });
+        ofNullable(genres).ifPresent(
+                list -> list.
+                        stream().
+                        forEach(genre -> {
+                            HashMap<String, Object> param = new HashMap<>(2);
+                            param.put("name", genre);
+                            param.put("id_book", id);
+                            jdbcOperations.update("insert into genres (name,id_book) values (:name,:id_book)", param);
+                        })
+        );
     }
 
     @Override
     public List<String> getById(int id) {
         return jdbcOperations.query("select *from genres where id_book=:id",
-                Collections.singletonMap("id",id),
+                Collections.singletonMap("id", id),
                 (rs, i) -> rs.getString("name"));
     }
 }

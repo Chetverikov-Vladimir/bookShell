@@ -22,9 +22,7 @@ public class BooksShellApplication {
 
 		bookDao.insert(new Book(
 				1,
-				"skazka",
-				Arrays.asList("Pushkin","Lermontov"),
-				Arrays.asList("Romantic","Poem")));
+				"skazka"));
 		bookDao.insert(new Book(
 				2,
 				"lozh",
